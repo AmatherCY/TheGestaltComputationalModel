@@ -5,6 +5,7 @@ from scipy.sparse import csr_matrix
 import warnings   
 import math  
 from scipy.sparse import csr_matrix  
+from sklearn.metrics import silhouette_score
 from sklearn.cluster import KMeans
 from collections import deque
 import networkx as nx
@@ -67,6 +68,9 @@ def cluster_0PD(diag,dgm_data):
     if cluster_num== 0.5*len(data):
         cluster_num=1
     print('cluster0_num = '+str(cluster_num))
+    kmeans = KMeans(n_clusters=2, random_state=0).fit(data)
+    silhouette = silhouette_score(data, kmeans.labels_)
+    print(f"Silhouette Score: {silhouette:.3f}")
     return cluster_num
 
 def cluster_1PD(diag,thres=0): 
@@ -115,6 +119,9 @@ def cluster_1PD(diag,thres=0):
                 cluster1_num=cluster1_num+1
 
     print('cluster1_num ='+str(cluster1_num))
+    kmeans = KMeans(n_clusters=2, random_state=0).fit(data)
+    silhouette = silhouette_score(data, kmeans.labels_)
+    print(f"Silhouette Score: {silhouette:.3f}")
     return cluster1_num
 
 def dfs_min_angle_path(graph, start, end, points, path=None, visited=None):
@@ -244,3 +251,57 @@ def not_similar(cycle,cycle_list,points):
             return False
     return True
     
+
+def get_threshold_1PDonly(points,dgm_data,diag,Method,maxdis=0,eps=1.01):
+    if Method=='PDcluster':
+        # 聚类得到的重要的环的个数
+        loop_num=cluster_1PD(diag)
+
+        pt_list=dgm_data[1]
+        pt_list=np.array(sorted(pt_list, key=custom_compare, reverse=True)) #按persistence从大到小排序
+
+        threshold1=-np.inf
+        if len(dgm_data[1])>0:
+            per_sup=pt_list[loop_num-1][1]-pt_list[loop_num-1][0] #阈值的选取正好能够分出前loop_num个持续时间最大的PD
+            pd1_selected=[]  #筛选出持续时间大于 per_sup 的1PD
+            for i in range(len(pt_list)):
+                if pt_list[i][1]-pt_list[i][0]>=per_sup:
+                    pd1_selected.append(pt_list[i])
+                    threshold1=max(threshold1,pt_list[i][0])  #阈值取1维PD点里面出生时间最大的值
+                    
+        threshold=threshold1*eps
+    return threshold, loop_num
+
+def find_single_edge_vertices(adj_matrix):  
+    # 初始化一个空列表来存储只与一条边相连的顶点的索引  
+    single_edge_vertices = []  
+  
+    # 遍历每个顶点  
+    for i in range(adj_matrix.shape[0]):  
+        
+        num_connected_vertices = 0
+        # 找出与当前顶点相连的顶点数量  
+        for j in range(adj_matrix.shape[1]):
+            if adj_matrix[i, j] != 0:
+                num_connected_vertices = num_connected_vertices + 1
+  
+        # 如果只有一个相连的顶点，将当前顶点的索引添加到结果列表中  
+        if num_connected_vertices == 1:  
+            single_edge_vertices.append(i)  
+  
+    return single_edge_vertices 
+
+def draw_curve(curve,points):
+    #绘制非闭曲线
+    #fig, ax = plt.subplots() 
+    x = points[:, 0]
+    y = points[:, 1]
+    plt.scatter(x, y)
+    # draw edge
+    l=len(curve)
+    for p in range(l-1):
+        line = plt.Polygon([points[curve[p]], points[curve[(p+1)]]], closed=None, fill=None, edgecolor='r', linewidth=2)
+        plt.gca().add_line(line)
+    plt.axis('equal')
+    plt.gcf().set_size_inches(10,8) 
+    plt.show()
