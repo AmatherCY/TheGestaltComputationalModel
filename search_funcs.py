@@ -254,45 +254,39 @@ def not_similar(cycle,cycle_list,points):
 
 def get_threshold_1PDonly(points,dgm_data,diag,Method,maxdis=0,eps=1.01):
     if Method=='PDcluster':
-        # 聚类得到的重要的环的个数
         loop_num=cluster_1PD(diag)
 
         pt_list=dgm_data[1]
-        pt_list=np.array(sorted(pt_list, key=custom_compare, reverse=True)) #按persistence从大到小排序
+        pt_list=np.array(sorted(pt_list, key=custom_compare, reverse=True)) 
 
         threshold1=-np.inf
         if len(dgm_data[1])>0:
-            per_sup=pt_list[loop_num-1][1]-pt_list[loop_num-1][0] #阈值的选取正好能够分出前loop_num个持续时间最大的PD
-            pd1_selected=[]  #筛选出持续时间大于 per_sup 的1PD
+            per_sup=pt_list[loop_num-1][1]-pt_list[loop_num-1][0] 
+            pd1_selected=[]  
             for i in range(len(pt_list)):
                 if pt_list[i][1]-pt_list[i][0]>=per_sup:
                     pd1_selected.append(pt_list[i])
-                    threshold1=max(threshold1,pt_list[i][0])  #阈值取1维PD点里面出生时间最大的值
+                    threshold1=max(threshold1,pt_list[i][0])  
                     
         threshold=threshold1*eps
     return threshold, loop_num
 
 def find_single_edge_vertices(adj_matrix):  
-    # 初始化一个空列表来存储只与一条边相连的顶点的索引  
     single_edge_vertices = []  
-  
-    # 遍历每个顶点  
+
     for i in range(adj_matrix.shape[0]):  
         
         num_connected_vertices = 0
-        # 找出与当前顶点相连的顶点数量  
         for j in range(adj_matrix.shape[1]):
             if adj_matrix[i, j] != 0:
                 num_connected_vertices = num_connected_vertices + 1
-  
-        # 如果只有一个相连的顶点，将当前顶点的索引添加到结果列表中  
+
         if num_connected_vertices == 1:  
             single_edge_vertices.append(i)  
   
     return single_edge_vertices 
 
 def draw_curve(curve,points):
-    #绘制非闭曲线
     #fig, ax = plt.subplots() 
     x = points[:, 0]
     y = points[:, 1]
