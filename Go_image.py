@@ -53,8 +53,8 @@ def get_pixel_values_at_k_intervals(image_path: str, k: int) -> np.ndarray:
         print(f"An error occurred: {e}")
         return np.array([])
 
-img='go1.png'
-#img='go2.png'
+img='pic/go/go1.png'
+#img='pic/go/go2.png'
 max_dis=255
 p = get_pixel_values_at_k_intervals(img, 5)
 p = p[(p[:,2] > 230) | (p[:,2] < 25)]
@@ -151,8 +151,7 @@ p1=np.array(p1)
 #np.savetxt('data\\go11.txt',p1,fmt='%2f')
 p2=np.array(p2)
 #np.savetxt('data\\go12.txt',p2,fmt='%2f')
-
-#3d 图像       
+    
 from mpl_toolkits.mplot3d import Axes3D  
   
 fig = plt.figure()  
@@ -167,4 +166,5 @@ for i in range(n):
 
 ax.view_init(elev=20, azim=-70)  # Set elevation and azimuth angles
 plt.show()  
+
 
