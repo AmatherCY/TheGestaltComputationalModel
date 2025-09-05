@@ -229,6 +229,7 @@ n=len(line4)
 for i in range(n):  
     draw.line((line4[i%n][0],line4[i%n][1], line4[(i + 1)%n][0],line4[(i + 1)%n][1]),fill='red', width=12) 
 
-image.save("new_4R2.png") 
+image.save("pic\\4R2\\new_4R2.png") 
 
 '''
+
