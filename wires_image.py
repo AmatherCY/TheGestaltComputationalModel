@@ -232,6 +232,7 @@ n=len(line2)
 for i in range(n-1):  
     draw.line((line2[i][0],line2[i][1], line2[(i + 1)][0],line2[(i + 1)][1]),fill='red', width=15) 
  
-image.save("new_wires2.png") 
+image.save("pic\wires2\new_wires2.png") 
 
 '''
+
