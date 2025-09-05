@@ -122,22 +122,3 @@ for i in range(n):
         if adjacency_matrix[i, j] != 0:  
             ax.plot([points[i, 0], points[j, 0]], [points[i, 1], points[j, 1]], [points[i, 2], points[j, 2]], 'y-')  
 plt.show()  
-
-
-points=np.loadtxt('data\\pw1.txt')
-plot=plt.scatter(points[:,0], points[:,1])
-plt.gcf().set_size_inches(8,6) 
-plt.axis('equal')
-plt.show()
-
-isolate_nodes=[1,60]
-print(isolate_nodes)
-
-curves=[]
-while len(isolate_nodes)>0:
-    curve=s.find_min_angle_path(isolate_nodes[0], isolate_nodes, points, G)
-    curves.append(curve)
-    print(curve)
-    s.draw_curve(curve,points)
-    isolate_nodes.remove(curve[0])
-    isolate_nodes.remove(curve[-1])
