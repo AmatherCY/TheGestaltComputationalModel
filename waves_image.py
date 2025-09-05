@@ -13,12 +13,12 @@ from scipy.sparse import csr_matrix
 import gudhi as gd
 import networkx as nx
 
-#step_size = 20  # 采样步长
+#step_size = 20 
 
 max_dis=10
 p = np.loadtxt('data\\waves111.txt')
 
-for k in range(0,p.shape[1]): #数据归一化
+for k in range(0,p.shape[1]): 
     if k>1:
         p[:,k]=max_dis * (p[:,k] - np.min(p[:,k])) / (np.max(p[:,k]) - np.min(p[:,k]))
     else:
@@ -112,7 +112,7 @@ np.savetxt('data\\pw1.txt',p1,fmt='%2f')
 p2=np.array(p2)
 np.savetxt('data\\pw2.txt',p2,fmt='%2f')
 
-#3d 图像       
+    
 from mpl_toolkits.mplot3d import Axes3D  
   
 fig = plt.figure()  
@@ -149,12 +149,12 @@ gd.plot_persistence_diagram(diag,legend=True)
 plt.gcf().set_size_inches(8, 6) 
 plt.show()
 
-#获取环的指标
+
 st=simplex_tree
 indices=s.get_all_1dgms(st,points)
 #print(indices)
 
-#普通持续图
+
 dgm_data0=[]
 dgm_data1=[]
 for pd in diag:
@@ -171,17 +171,17 @@ adjacency_matrix = csr_matrix((n, n), dtype=np.float32)
 if Method=='VR':
     for i in range(n):  
         for j in range(i+1, n):  
-            dist = distance.euclidean(points[i], points[j])  # 假设使用欧氏距离  
-            if dist <= threshold:  # 根据权重阈值来判断是否连接  
+            dist = distance.euclidean(points[i], points[j])  
+            if dist <= threshold:  
                 adjacency_matrix[i, j] = dist  
-                adjacency_matrix[j, i] = dist  # 无向图，对称矩阵
+                adjacency_matrix[j, i] = dist 
 
 if Method=='alpha':
     for f in Filt:
         if len(f[0])==2:
             i,j = f[0][0],f[0][1]
             
-            if f[1] <= threshold:  # 根据权重阈值来判断是否连接 
+            if f[1] <= threshold: 
                 dist=distance.euclidean(points[i], points[j])
                 adjacency_matrix[i,j]=dist
                 adjacency_matrix[j,i]=dist
@@ -206,24 +206,3 @@ while len(isolate_nodes)>0:
     s.draw_curve(curve,points)
     isolate_nodes.remove(curve[0])
     isolate_nodes.remove(curve[-1])
-'''        
-    
-#最小转角算法
-edges=[[] for _ in range(len(indices))]
-visit=[]
-cycle_list=[]
-k = 0
-while len(cycle_list)<loop_num and k<len(indices): #找满loop_num个环
-    edge = sorted(indices[k])
-    start_vertex, end_vertex = edge[0], edge[1]
-    print(start_vertex, end_vertex)
-    if adjacency_matrix[start_vertex, end_vertex]!=0:
-        cycle=s.dfs_min_angle_path(G,start_vertex,end_vertex,points)
-        #print(cycle)
-        if cycle is not None:  
-            #if s.not_similar(cycle,cycle_list,points,haus_thres=0.05):  #用Hausdorff距离判断两个环是否相似
-            cycle_list.append(cycle)
-            s.draw_cycle(cycle, points)
-                
-    k=k+1
-''' 
