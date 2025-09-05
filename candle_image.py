@@ -225,5 +225,6 @@ plot_delaunay_on_image(draw, points[pw3], region30, 'blue')
 plot_delaunay_on_image(draw, points[pw3], region31, 'blue')
 plot_delaunay_on_image(draw, points[pw3], region32, 'blue')
 
-image.save("new_candle2.png")
+image.save("pic\\candle2\\new_candle2.png")
 '''
+
