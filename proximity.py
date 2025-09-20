@@ -57,7 +57,7 @@ pd_selected=[]
 for i in range(len(pt_list)):
     if pt_list[i][1]-pt_list[i][0]>=per_sup:
         pd_selected.append(pt_list[i])
-threshold = round(pt_list[cluster_num][1],6)
+threshold = round(pt_list[cluster_num][1],5)
 
 n = len(points)  
 adjacency_matrix = csr_matrix((n, n), dtype=np.float32)  
