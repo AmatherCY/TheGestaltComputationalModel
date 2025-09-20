@@ -58,7 +58,7 @@ pd1_selected=[]
 for i in range(len(pt_list)):
     if pt_list[i][1]-pt_list[i][0]>=per_sup:
         pd1_selected.append(pt_list[i])
-threshold=round(pt_list[loop_num-1][0],6)
+threshold=round(pt_list[loop_num-1][0],5)
 
 
 n = len(points)  
