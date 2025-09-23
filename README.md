@@ -53,7 +53,7 @@ python proximity.py
 ```bash
 python closure.py
 ```
-- Detects and completes incomplete visual structures
+- Detects and completes closure visual structures
 - Uses data from `data/triangles.txt`
 - Outputs closure detection results
 
@@ -68,7 +68,7 @@ python good_con.py
 ```bash
 python pragnanz.py
 ```
-- Finds the simplest and most regular visual organization
+- Demonstrates the principle of pragnanz
 - Uses data from `data/Olympics.txt`
 
 
