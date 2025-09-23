@@ -8,7 +8,7 @@ This project implements computational models for Gestalt visual perception princ
 
 ```
 ├── data/           # Input datasets
-├── pic/            # Output visualizations
+├── pic/            # Real image inputs and outputs
 ├── *.py           # Core implementation files
 └── search_funcs.py # Utility functions
 ```
